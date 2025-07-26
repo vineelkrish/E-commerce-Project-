@@ -1,6 +1,6 @@
 ## Amazon Clone - Frontend Project (HTML, CSS, JavaScript)
 
-Welcome to the **Amazon Clone** project! This is a front-end-only recreation of the popular Amazon e-commerce platform using **HTML**, **CSS**, and ***JavaScript**. The goal of this project is to mimic the layout, design, and basic interactivity of Amazon's shopping website for learning and demo purposes.
+Welcome to the **Amazon Clone** project! This is a front-end-only recreation of the popular Amazon e-commerce platform using **HTML**, **CSS**, and **JavaScript**. The goal of this project is to mimic the layout, design, and basic interactivity of Amazon's shopping website for learning and demo purposes.
 
 ## Features
 
