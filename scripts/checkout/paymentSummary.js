@@ -1,16 +1,18 @@
-import {cart} from '../../data/cart.js';
-import {getProduct} from '../../data/products.js';
-import {getDeliveryOption} from '../../data/deliveryOptions.js';
-import {formatCurrency} from '../utils/money.js';
-import {addOrder} from '../../data/orders.js';
+import { cart } from '../../data/cart.js';
+import { getProduct } from '../../data/products.js';
+import { getDeliveryOption } from '../../data/deliveryOptions.js';
+import { formatCurrency } from '../utils/money.js';
+import { addOrder } from '../../data/orders.js';
 
 export function renderPaymentSummary() {
   let productPriceCents = 0;
   let shippingPriceCents = 0;
+  let totalQuantity = 0;
 
   cart.forEach((cartItem) => {
     const product = getProduct(cartItem.productId);
     productPriceCents += product.priceCents * cartItem.quantity;
+    totalQuantity += cartItem.quantity;
 
     const deliveryOption = getDeliveryOption(cartItem.deliveryOptionId);
     shippingPriceCents += deliveryOption.priceCents;
@@ -26,7 +28,7 @@ export function renderPaymentSummary() {
     </div>
 
     <div class="payment-summary-row">
-      <div>Items (3):</div>
+      <div>Items (${totalQuantity}):</div>
       <div class="payment-summary-money">
         $${formatCurrency(productPriceCents)}
       </div>
@@ -60,14 +62,12 @@ export function renderPaymentSummary() {
       </div>
     </div>
 
-    <button class="place-order-button button-primary
-      js-place-order">
+    <button class="place-order-button button-primary js-place-order">
       Place your order
     </button>
   `;
 
-  document.querySelector('.js-payment-summary')
-    .innerHTML = paymentSummaryHTML;
+  document.querySelector('.js-payment-summary').innerHTML = paymentSummaryHTML;
 
   document.querySelector('.js-place-order')
     .addEventListener('click', async () => {
@@ -77,18 +77,16 @@ export function renderPaymentSummary() {
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({
-            cart: cart
-          })
+          body: JSON.stringify({ cart })
         });
 
         const order = await response.json();
         addOrder(order);
 
+        window.location.href = 'orders.html';
+
       } catch (error) {
         console.log('Unexpected error. Try again later.');
       }
-
-      window.location.href = 'orders.html';
     });
 }
